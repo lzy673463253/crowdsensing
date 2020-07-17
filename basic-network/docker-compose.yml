@@ -158,3 +158,65 @@ services:
         aliases:
           - peer1.org2.crowdsensing.rsu.com
 
+  peer0.org3.crowdsensing.car.com:
+    container_name: peer0.org3.crowdsensing.car.com
+    image: hyperledger/fabric-peer
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_ATTACHSTDOUT=true
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_NETWORKID=crowdsensing
+      - CORE_PEER_ID=peer0.org3.crowdsensing.car.com
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_ADDRESS=peer0.org3.crowdsensing.car.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org3.crowdsensing.car.com:7051
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false
+      - CORE_PEER_GOSSIP_ORGLEADER=true
+      - CORE_PEER_LOCALMSPID=org3.crowdsensing.car.com
+      - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 9051:7051
+      - 9053:7053
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/org3.crowdsensing.car.com/peers/peer0.org3.crowdsensing.car.com/msp:/var/hyperledger/msp
+    depends_on:
+      - orderer.crowdsensing.com
+    networks:
+      default:
+        aliases:
+          - peer0.org3.crowdsensing.car.com
+
+  peer1.org3.crowdsensing.car.com:
+    container_name: peer1.org3.crowdsensing.car.com
+    image: hyperledger/fabric-peer
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_ATTACHSTDOUT=true
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_NETWORKID=crowdsensing
+      - CORE_PEER_ID=peer1.org3.crowdsensing.car.com
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_ADDRESS=peer1.org3.crowdsensing.car.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org3.crowdsensing.car.com:7051
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_LOCALMSPID=org3.crowdsensing.car.com
+      - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 9151:7051
+      - 9153:7053
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/org3.crowdsensing.car.com/peers/peer1.org3.crowdsensing.car.com/msp:/var/hyperledger/msp
+    depends_on:
+      - orderer.crowdsensing.com
+    networks:
+      default:
+        aliases:
+          - peer1.org3.crowdsensing.car.com
+
